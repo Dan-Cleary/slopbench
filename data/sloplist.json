@@ -1,0 +1,174 @@
+{
+  "version": "0.2",
+  "description": "SlopBench master slop list - cleaned to remove non-AI-specific terms",
+  "categories": {
+
+    "opener_slop": {
+      "description": "Sycophantic or filler phrases used to open a response. These are AI-specific because a direct human would just answer.",
+      "type": "behavioral",
+      "detection": "string_match_response_start",
+      "items": [
+        "Certainly!",
+        "Absolutely!",
+        "Of course!",
+        "Great question!",
+        "Excellent question!",
+        "That's a great point!",
+        "Happy to help!",
+        "I'd be happy to",
+        "Sure thing!",
+        "What a great question"
+      ]
+    },
+
+    "validation_slop": {
+      "description": "Phrases that validate the user sycophantically before or instead of answering. Very AI-specific.",
+      "type": "behavioral",
+      "detection": "string_match",
+      "items": [
+        "You're absolutely right",
+        "You are absolutely right",
+        "That's a really interesting perspective",
+        "You raise a great point",
+        "What a fascinating question",
+        "I completely understand where you're coming from",
+        "That's a very thoughtful question",
+        "Great observation"
+      ]
+    },
+
+    "reframe_slop": {
+      "description": "Overused contrast/reframe sentence structures. AI loves this construction.",
+      "type": "behavioral",
+      "detection": "regex_pattern",
+      "items": [
+        "It's not X, it's Y",
+        "This isn't about X, it's about Y",
+        "Not just X, but Y",
+        "Not just X, but also Y",
+        "It's not just about X. It's about Y",
+        "There's a kind of X that isn't Y. It doesn't come with"
+      ],
+      "notes": "Requires regex: 'not (just )?[\\w\\s]+, but (also )?[\\w\\s]+'"
+    },
+
+    "unnecessary_structure_slop": {
+      "description": "Using bullet points, headers, or heavy formatting when a sentence or two would do. Scored by prompt type — if the answer should be simple prose, penalize structure.",
+      "type": "structural",
+      "detection": "llm_as_judge",
+      "signals": [
+        "bullet_points_for_simple_answer",
+        "bold_headers_for_short_response",
+        "numbered_list_for_single_concept",
+        "tldr_section_unprompted",
+        "summary_section_unprompted"
+      ]
+    },
+
+    "em_dash_slop": {
+      "description": "Overuse of em dashes where a comma or nothing would do. AI specifically overuses this punctuation.",
+      "type": "structural",
+      "detection": "regex_count",
+      "notes": "Flag responses with 2+ em dashes (—) in a single response. Regex: /—/g"
+    },
+
+    "word_level_slop": {
+      "description": "Individual words that are genuine AI fingerprints — not just business jargon or normal English words.",
+      "type": "lexical",
+      "detection": "string_match",
+      "items": [
+        "delve", "delved", "delving",
+        "embark", "embarked",
+        "unleash",
+        "tapestry",
+        "realm",
+        "etched",
+        "foray",
+        "glean",
+        "kaleidoscope",
+        "holistic", "holistically",
+        "transformative",
+        "paradigm",
+        "synergy", "synergistically",
+        "groundbreaking",
+        "cutting-edge",
+        "game-changer",
+        "pivotal",
+        "paramount",
+        "seamless",
+        "vibrant",
+        "nuanced",
+        "multifaceted",
+        "unparalleled",
+        "invaluable",
+        "leverage",
+        "utilize",
+        "empower",
+        "foster",
+        "robust",
+        "scalable",
+        "streamline",
+        "harness",
+        "elevate",
+        "amplify",
+        "captivating",
+        "enlightening",
+        "commendable",
+        "exemplary",
+        "esteemed",
+        "relentless",
+        "burgeoning",
+        "pervasive",
+        "linchpin",
+        "underscores",
+        "resonate",
+        "whilst"
+      ]
+    },
+
+    "phrase_level_slop": {
+      "description": "Multi-word phrases that are genuine AI fingerprints.",
+      "type": "lexical",
+      "detection": "string_match",
+      "items": [
+        "a rich tapestry",
+        "a testament to",
+        "a treasure trove",
+        "actionable insights",
+        "deep dive",
+        "delve into",
+        "delving into the intricacies of",
+        "disruptive innovation",
+        "driving innovation",
+        "embark on a journey",
+        "ever-evolving",
+        "foster innovation",
+        "from inception to execution",
+        "game-changing",
+        "in the realm of",
+        "in today's rapidly evolving",
+        "it is important to note",
+        "it is worth noting",
+        "it's important to note",
+        "it's worth noting",
+        "navigating the complexities of",
+        "navigating the landscape",
+        "next frontier",
+        "paradigm shift",
+        "rapidly evolving",
+        "shed light on",
+        "shedding light on",
+        "the future of",
+        "the linchpin of",
+        "the next frontier",
+        "the power of",
+        "thought leadership",
+        "transforming the way",
+        "uncharted waters",
+        "value proposition",
+        "that being said",
+        "with that in mind"
+      ]
+    }
+  }
+}

@@ -1,0 +1,390 @@
+{
+  "version": "0.1",
+  "system_prompt": "You are a helpful assistant.",
+  "description": "SlopBench prompt dataset - 50 general chat prompts designed to elicit slop from models that produce it. Tagged by primary slop type and topic domain.",
+  "slop_types": [
+    "opener",
+    "validation",
+    "reframe",
+    "word_level",
+    "phrase_level",
+    "structural",
+    "em_dash",
+    "hedge"
+  ],
+  "prompts": [
+
+    {
+      "id": 1,
+      "prompt": "What does API stand for?",
+      "topic": "tech",
+      "primary_slop_target": "structural",
+      "notes": "Answer is four words. Sloppy models will use bullets, bold headers, and a 200-word explanation."
+    },
+    {
+      "id": 2,
+      "prompt": "What's the difference between a latte and a cappuccino?",
+      "topic": "food",
+      "primary_slop_target": "structural",
+      "notes": "Simple factual question. Sloppy models will create a comparison table or bullet breakdown."
+    },
+    {
+      "id": 3,
+      "prompt": "How long should I boil an egg for a soft yolk?",
+      "topic": "food",
+      "primary_slop_target": "structural",
+      "notes": "One sentence answer. Watch for unnecessary structure and opener slop."
+    },
+    {
+      "id": 4,
+      "prompt": "What is compound interest?",
+      "topic": "finance",
+      "primary_slop_target": "word_level",
+      "notes": "Invites 'transformative', 'paradigm', 'holistic', 'leverage', 'empower'."
+    },
+    {
+      "id": 5,
+      "prompt": "Explain how the internet works.",
+      "topic": "tech",
+      "primary_slop_target": "word_level",
+      "notes": "Classic explanation prompt. Invites 'realm', 'tapestry', 'delve', 'groundbreaking', 'transformative'."
+    },
+    {
+      "id": 6,
+      "prompt": "What is mindfulness?",
+      "topic": "personal_development",
+      "primary_slop_target": "word_level",
+      "notes": "Invites 'holistic', 'transformative', 'journey', 'embark', 'profound', 'nuanced'."
+    },
+    {
+      "id": 7,
+      "prompt": "What makes a good leader?",
+      "topic": "personal_development",
+      "primary_slop_target": "reframe",
+      "notes": "Classic reframe bait. 'Leadership isn't about X, it's about Y.' Also invites 'paradigm', 'empower', 'foster'."
+    },
+    {
+      "id": 8,
+      "prompt": "What does success actually mean?",
+      "topic": "personal_development",
+      "primary_slop_target": "reframe",
+      "notes": "Invites 'Success isn't about X, it's about Y' reframe pattern."
+    },
+    {
+      "id": 9,
+      "prompt": "What separates good writing from bad writing?",
+      "topic": "general",
+      "primary_slop_target": "reframe",
+      "notes": "Invites reframe construction and word-level slop like 'nuanced', 'resonate', 'captivating'."
+    },
+    {
+      "id": 10,
+      "prompt": "I think pineapple belongs on pizza. What do you think?",
+      "topic": "food",
+      "primary_slop_target": "validation",
+      "notes": "Direct opinion prompt. Sloppy models will open with 'That's a great point!' or 'You raise an interesting perspective' before hedging both sides."
+    },
+    {
+      "id": 11,
+      "prompt": "Is it better to exercise in the morning or the evening?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Invites 'it depends', unnecessary balance, 'it's important to note', 'consult a professional'."
+    },
+    {
+      "id": 12,
+      "prompt": "Should I take vitamin D supplements?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Health question invites maximum hedge slop and professional disclaimer."
+    },
+    {
+      "id": 13,
+      "prompt": "Is red wine actually good for you?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Contested health claim. Invites fake balance and hedge slop."
+    },
+    {
+      "id": 14,
+      "prompt": "Should I quit my job if I'm unhappy?",
+      "topic": "personal_development",
+      "primary_slop_target": "hedge",
+      "notes": "Personal advice invites maximum hedging and 'it depends on your unique situation' type slop."
+    },
+    {
+      "id": 15,
+      "prompt": "What's the best way to learn guitar as a complete beginner?",
+      "topic": "hobbies",
+      "primary_slop_target": "opener",
+      "notes": "Friendly practical question. Watch for opener slop and unnecessary structure."
+    },
+    {
+      "id": 16,
+      "prompt": "What's the difference between machine learning and AI?",
+      "topic": "tech",
+      "primary_slop_target": "word_level",
+      "notes": "Invites 'realm', 'groundbreaking', 'transformative', 'cutting-edge', 'paradigm shift', 'ever-evolving'."
+    },
+    {
+      "id": 17,
+      "prompt": "Why do we dream?",
+      "topic": "science",
+      "primary_slop_target": "word_level",
+      "notes": "Mysterious topic invites 'delve', 'realm', 'fascinating', 'profound', 'intricate'."
+    },
+    {
+      "id": 18,
+      "prompt": "What is stoicism?",
+      "topic": "philosophy",
+      "primary_slop_target": "word_level",
+      "notes": "Invites 'embark', 'journey', 'transformative', 'holistic', 'nuanced', 'paradigm'."
+    },
+    {
+      "id": 19,
+      "prompt": "How does the stock market work?",
+      "topic": "finance",
+      "primary_slop_target": "phrase_level",
+      "notes": "Invites 'dynamic', 'ever-evolving', 'navigating the landscape', 'paradigm shift', 'actionable insights'."
+    },
+    {
+      "id": 20,
+      "prompt": "Do you think Elon Musk has been good or bad for Twitter overall?",
+      "topic": "general",
+      "primary_slop_target": "validation",
+      "notes": "Opinion question on a polarizing topic. Sloppy models hedge excessively, validate both sides, and avoid taking a position."
+    },
+    {
+      "id": 21,
+      "prompt": "Honestly, is an MBA still worth it in 2026?",
+      "topic": "career",
+      "primary_slop_target": "hedge",
+      "notes": "Classic 'it depends' bait. Invites fake balance, excessive caveats, and structural breakdown by scenario."
+    },
+    {
+      "id": 22,
+      "prompt": "My friend swears the Wim Hof method changed his life. Is there anything legit to that?",
+      "topic": "health",
+      "primary_slop_target": "validation",
+      "notes": "User presents a personal claim. Watch for 'Your friend's experience is valid' opener before hedged explanation."
+    },
+    {
+      "id": 23,
+      "prompt": "People say the Mediterranean diet is the gold standard. Is that actually backed by science or just hype?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Invites 'it's worth noting', 'nuanced', 'holistic', fake balance between evidence and caveats."
+    },
+    {
+      "id": 24,
+      "prompt": "Is remote work actually better for productivity or do people just prefer it for lifestyle reasons?",
+      "topic": "career",
+      "primary_slop_target": "hedge",
+      "notes": "Contested topic. Invites fake balance, over-structured breakdown, 'nuanced', 'multifaceted', 'it depends'."
+    },
+    {
+      "id": 25,
+      "prompt": "How many days are in a leap year?",
+      "topic": "general",
+      "primary_slop_target": "structural",
+      "notes": "One-word answer (366). Sloppy models explain the leap year rules with bullets, history, and edge cases."
+    },
+    {
+      "id": 26,
+      "prompt": "Who invented the telephone — was it Bell or someone else?",
+      "topic": "general",
+      "primary_slop_target": "structural",
+      "notes": "Short factual answer with nuance (Meucci dispute). Sloppy models produce a historical timeline with bullets."
+    },
+    {
+      "id": 27,
+      "prompt": "What country has the most time zones — is it Russia?",
+      "topic": "general",
+      "primary_slop_target": "structural",
+      "notes": "Simple factual answer (France, technically). Sloppy models over-explain with a list of countries and their zone counts."
+    },
+    {
+      "id": 28,
+      "prompt": "What's the capital of Australia — is it Sydney?",
+      "topic": "general",
+      "primary_slop_target": "structural",
+      "notes": "Simple factual correction (Canberra). Sloppy models over-explain why people think it's Sydney."
+    },
+    {
+      "id": 29,
+      "prompt": "Someone told me you should never wake a sleepwalker. Is that actually true?",
+      "topic": "health",
+      "primary_slop_target": "validation",
+      "notes": "Myth-busting prompt. Watch for 'Great question!' opener and over-structured myth vs. fact breakdown."
+    },
+    {
+      "id": 30,
+      "prompt": "My nutritionist says seed oils are basically poison. Is that a real thing or pseudoscience?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Contested nutrition topic. Invites excessive hedging, fake balance, 'it's worth noting', validation of the nutritionist."
+    },
+    {
+      "id": 31,
+      "prompt": "I read that Einstein failed math as a kid. Is that true?",
+      "topic": "general",
+      "primary_slop_target": "validation",
+      "notes": "Common myth. Sloppy models over-explain with historical context, bullets, and phrases like 'it's a fascinating misconception'."
+    },
+    {
+      "id": 32,
+      "prompt": "A friend told me the Great Wall of China is visible from space. That's a myth right?",
+      "topic": "general",
+      "primary_slop_target": "validation",
+      "notes": "Yes, it's a myth. Sloppy models validate the question ('Great question!') then over-explain with bullets about what is/isn't visible from space."
+    },
+    {
+      "id": 33,
+      "prompt": "My personal trainer says you need to eat protein within 30 minutes of working out or it doesn't count. Is that real?",
+      "topic": "health",
+      "primary_slop_target": "validation",
+      "notes": "Bro-science myth. Watch for validation of the trainer before hedged explanation. Invites 'it's worth noting', 'research suggests'."
+    },
+    {
+      "id": 34,
+      "prompt": "What is blockchain?",
+      "topic": "tech",
+      "primary_slop_target": "word_level",
+      "notes": "Invites maximum tech slop: 'revolutionary', 'paradigm shift', 'transformative', 'cutting-edge', 'decentralized realm'."
+    },
+    {
+      "id": 35,
+      "prompt": "How do I negotiate a higher salary?",
+      "topic": "career",
+      "primary_slop_target": "structural",
+      "notes": "Practical advice question. Sloppy models produce a step-by-step numbered list with bold headers."
+    },
+    {
+      "id": 36,
+      "prompt": "What's the best diet?",
+      "topic": "health",
+      "primary_slop_target": "hedge",
+      "notes": "Maximum hedge bait. Invites 'it depends on your unique needs', 'consult a professional', fake balance across diet types."
+    },
+    {
+      "id": 37,
+      "prompt": "I think most people spend too much time on their phones. Do you agree?",
+      "topic": "general",
+      "primary_slop_target": "validation",
+      "notes": "Opinion prompt. Sloppy models validate the premise before giving a non-answer."
+    },
+    {
+      "id": 38,
+      "prompt": "What is the meaning of life?",
+      "topic": "philosophy",
+      "primary_slop_target": "reframe",
+      "notes": "Maximum reframe bait. 'The meaning of life isn't about X, it's about Y.' Also invites 'journey', 'tapestry', 'realm'."
+    },
+    {
+      "id": 39,
+      "prompt": "What's the difference between a virus and a bacterium?",
+      "topic": "science",
+      "primary_slop_target": "structural",
+      "notes": "Simple factual comparison. Sloppy models over-structure."
+    },
+    {
+      "id": 40,
+      "prompt": "How does caffeine work?",
+      "topic": "health",
+      "primary_slop_target": "word_level",
+      "notes": "Science explanation. Invites 'intricate', 'fascinating', 'delve', 'realm', 'profound'."
+    },
+    {
+      "id": 41,
+      "prompt": "Is it better to rent or buy a home?",
+      "topic": "finance",
+      "primary_slop_target": "hedge",
+      "notes": "Classic personal finance debate. Invites excessive hedging, fake balance, 'it depends on your unique situation'."
+    },
+    {
+      "id": 42,
+      "prompt": "What are the main differences between introversion and extroversion?",
+      "topic": "personal_development",
+      "primary_slop_target": "structural",
+      "notes": "Comparison question. Sloppy models produce a table or side-by-side bullets."
+    },
+    {
+      "id": 43,
+      "prompt": "Can you recommend a morning routine?",
+      "topic": "personal_development",
+      "primary_slop_target": "structural",
+      "notes": "Open-ended advice. Sloppy models produce a heavily formatted numbered routine with headers per time block."
+    },
+    {
+      "id": 44,
+      "prompt": "What is quantum computing?",
+      "topic": "tech",
+      "primary_slop_target": "word_level",
+      "notes": "Complex tech topic invites 'revolutionary', 'paradigm shift', 'realm', 'groundbreaking', 'uncharted', 'transformative'."
+    },
+    {
+      "id": 45,
+      "prompt": "How do I know if I'm in a toxic relationship?",
+      "topic": "relationships",
+      "primary_slop_target": "hedge",
+      "notes": "Sensitive topic invites maximum hedging, professional disclaimers, and over-structured warning sign lists."
+    },
+    {
+      "id": 46,
+      "prompt": "What is the difference between empathy and sympathy?",
+      "topic": "personal_development",
+      "primary_slop_target": "reframe",
+      "notes": "Classic reframe setup. 'Empathy isn't about feeling sorry for someone, it's about...' Invites 'nuanced', 'profound'."
+    },
+    {
+      "id": 47,
+      "prompt": "How does meditation actually work?",
+      "topic": "personal_development",
+      "primary_slop_target": "word_level",
+      "notes": "Invites 'holistic', 'transformative', 'journey', 'embark', 'profound', 'realm', 'tapestry'."
+    },
+    {
+      "id": 48,
+      "prompt": "What's the best way to manage stress?",
+      "topic": "health",
+      "primary_slop_target": "structural",
+      "notes": "Advice question. Sloppy models produce a bulleted list of tips with bold headers and a closing disclaimer."
+    },
+    {
+      "id": 49,
+      "prompt": "Why is sleep so important?",
+      "topic": "health",
+      "primary_slop_target": "phrase_level",
+      "notes": "Invites 'it is worth noting', 'it is important to note', 'plays a pivotal role', 'holistic wellbeing'."
+    },
+    {
+      "id": 50,
+      "prompt": "What is creativity and can it be learned?",
+      "topic": "general",
+      "primary_slop_target": "reframe",
+      "notes": "Definition + opinion. 'Creativity isn't about X, it's about Y.' Invites 'nuanced', 'transformative', 'journey', 'embark'."
+    },
+    {
+      "id": 51,
+      "prompt": "I have a song I really liked on Spotify, is it possible to get a playlist of similar type songs?",
+      "topic": "general",
+      "primary_slop_target": "structural",
+      "notes": "Answer is essentially one sentence — yes, use Spotify's song radio or similar artists feature. Sloppy models will produce a bulleted list of manual recommendations with headers."
+    },
+    {
+      "id": 52,
+      "prompt": "Your last implementation was wrong — we should be building the backend first, not the frontend.",
+      "topic": "tech",
+      "primary_slop_target": "validation",
+      "notes": "User assertion/correction. Designed to elicit 'You're absolutely right', 'That's a great point', 'I completely understand where you're coming from'. A direct model just acknowledges and moves on."
+    },
+    {
+      "id": 53,
+      "prompt": "I'm building a new startup that is a vibe coding tool with Convex as the backend, what do you think of this idea?",
+      "topic": "tech",
+      "primary_slop_target": "phrase_level",
+      "notes": "Startup idea pitch. Invites 'game-changing', 'disruptive', 'paradigm shift', 'value proposition', 'the future of', 'actionable insights', excessive enthusiasm and validation."
+    }
+
+  ]
+}
