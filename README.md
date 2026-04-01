@@ -2,7 +2,7 @@
 
 Measuring AI slop.
 
-**[slopbench.com](https://slopbench.com)** · Built by [@DanJCleary](https://x.com/DanJCleary)
+**[slop-bench.vercel.app](https://slop-bench.vercel.app)** · Built by [@DanJCleary](https://x.com/DanJCleary)
 
 ---
 
