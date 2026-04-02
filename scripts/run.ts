@@ -16,6 +16,7 @@ if (!model) {
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const CONVEX_URL = process.env.VITE_CONVEX_URL;
+const BENCHMARK_SECRET = process.env.BENCHMARK_SECRET;
 
 if (!OPENROUTER_API_KEY) {
   console.error("Missing OPENROUTER_API_KEY in .env.local");
@@ -23,6 +24,10 @@ if (!OPENROUTER_API_KEY) {
 }
 if (!CONVEX_URL) {
   console.error("Missing VITE_CONVEX_URL in .env.local");
+  process.exit(1);
+}
+if (!BENCHMARK_SECRET) {
+  console.error("Missing BENCHMARK_SECRET in .env.local");
   process.exit(1);
 }
 
@@ -92,8 +97,8 @@ async function runBenchmark() {
   console.log(`\nRunning SlopBench for: ${model}`);
   console.log(`Prompts: ${prompts.length}`);
 
-  const runId = await convex.mutation(api.runs.createRun, { model });
-  await convex.mutation(api.runs.updateRunStatus, { runId, status: "running" });
+  const runId = await convex.mutation(api.runs.createRun, { model, secret: BENCHMARK_SECRET });
+  await convex.mutation(api.runs.updateRunStatus, { runId, status: "running", secret: BENCHMARK_SECRET });
 
   const scored: ScoredResponse[] = [];
   const costs: number[] = [];
@@ -130,6 +135,7 @@ async function runBenchmark() {
             wordCount: result.word_count,
             costUsd: cost_usd,
             latencyMs: latency_ms,
+            secret: BENCHMARK_SECRET,
           });
 
           if (cost_usd !== undefined) costs.push(cost_usd);
@@ -160,6 +166,7 @@ async function runBenchmark() {
       emDashRate: totals.em_dash_rate,
       totalCostUsd: total_cost_usd,
       avgLatencyMs: avg_latency_ms,
+      secret: BENCHMARK_SECRET,
     });
 
     const breakdown = computeCategoryBreakdown(scored);
@@ -200,6 +207,7 @@ async function runBenchmark() {
       runId,
       status: "failed",
       error_message: message,
+      secret: BENCHMARK_SECRET,
     });
     console.error(`\nRun failed: ${message}`);
     process.exit(1);

@@ -40,7 +40,10 @@ You'll need a `.env.local` file with:
 ```
 VITE_CONVEX_URL=your_convex_url
 OPENROUTER_API_KEY=your_openrouter_key
+BENCHMARK_SECRET=your_secret_key
 ```
+
+The `BENCHMARK_SECRET` is used to authenticate benchmark runs. Generate a random string (e.g., `openssl rand -hex 32`) and set it both in `.env.local` and in your Convex dashboard (Settings → Environment Variables → `BENCHMARK_SECRET`).
 
 ## Contributing
 

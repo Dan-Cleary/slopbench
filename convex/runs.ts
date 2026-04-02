@@ -1,9 +1,21 @@
-import { mutation, query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+// Helper to validate secret
+function checkAuth(secret: string) {
+  const expectedSecret = process.env.BENCHMARK_SECRET;
+  if (!expectedSecret) {
+    throw new Error("BENCHMARK_SECRET not configured");
+  }
+  if (secret !== expectedSecret) {
+    throw new Error("Unauthorized: invalid secret");
+  }
+}
+
 export const clearAllData = mutation({
-  args: {},
-  handler: async (ctx) => {
+  args: { secret: v.string() },
+  handler: async (ctx, args) => {
+    checkAuth(args.secret);
     const runs = await ctx.db.query("runs").take(1000);
     const responses = await ctx.db.query("responses").take(10000);
     await Promise.all([
@@ -53,8 +65,9 @@ export const getRunById = query({
 });
 
 export const createRun = mutation({
-  args: { model: v.string() },
+  args: { model: v.string(), secret: v.string() },
   handler: async (ctx, args) => {
+    checkAuth(args.secret);
     return await ctx.db.insert("runs", {
       model: args.model,
       run_date: Date.now(),
@@ -73,8 +86,10 @@ export const updateRunStatus = mutation({
       v.literal("failed")
     ),
     error_message: v.optional(v.string()),
+    secret: v.string(),
   },
   handler: async (ctx, args) => {
+    checkAuth(args.secret);
     await ctx.db.patch(args.runId, {
       status: args.status,
       ...(args.error_message !== undefined
@@ -94,8 +109,10 @@ export const saveResponse = mutation({
     wordCount: v.number(),
     costUsd: v.optional(v.number()),
     latencyMs: v.number(),
+    secret: v.string(),
   },
   handler: async (ctx, args) => {
+    checkAuth(args.secret);
     await ctx.db.insert("responses", {
       run_id: args.runId,
       prompt_id: args.promptId,
@@ -120,8 +137,10 @@ export const finalizeRun = mutation({
     emDashRate: v.number(),
     totalCostUsd: v.number(),
     avgLatencyMs: v.number(),
+    secret: v.string(),
   },
   handler: async (ctx, args) => {
+    checkAuth(args.secret);
     await ctx.db.patch(args.runId, {
       status: "complete",
       slop_score: args.slopScore,
