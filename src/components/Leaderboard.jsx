@@ -52,7 +52,7 @@ const TABS = [
     heading: 'Cost per Run',
     subheading: 'Total cost to run SlopBench. Lower is better.',
     getValue: r => r.total_cost_usd,
-    format: v => `$${v.toFixed(4)}`,
+    format: v => `$${v.toFixed(2)}`,
   },
   {
     key: 'matrix',

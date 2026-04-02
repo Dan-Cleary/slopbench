@@ -31,6 +31,8 @@ const convex = new ConvexHttpClient(CONVEX_URL);
 const BATCH_SIZE = 10;
 const prompts = promptData.prompts;
 
+const REQUEST_TIMEOUT_MS = 300_000; // 5 minutes per request
+
 async function callOpenRouter(
   modelId: string,
   prompt: string,
@@ -38,8 +40,11 @@ async function callOpenRouter(
 ): Promise<{ text: string; cost_usd: number | undefined; latency_ms: number }> {
   const start = Date.now();
   try {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
+    signal: controller.signal,
     headers: {
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
@@ -53,6 +58,7 @@ async function callOpenRouter(
       usage: { include: true },
     }),
   });
+  clearTimeout(timeout);
 
   const latency_ms = Date.now() - start;
 
@@ -97,9 +103,21 @@ async function runBenchmark() {
   try {
     for (let i = 0; i < prompts.length; i += BATCH_SIZE) {
       const batch = prompts.slice(i, i + BATCH_SIZE);
+      const batchStart = i + 1;
+      const batchEnd = Math.min(i + BATCH_SIZE, prompts.length);
+      console.log(`\nBatch ${batchStart}-${batchEnd}...`);
       const results = await Promise.all(
         batch.map(async (p) => {
-          const { text, cost_usd, latency_ms } = await callOpenRouter(model, p.prompt);
+          const promptStart = Date.now();
+          console.log(`  → prompt ${p.id} starting`);
+          let text: string, cost_usd: number | undefined, latency_ms: number;
+          try {
+            ({ text, cost_usd, latency_ms } = await callOpenRouter(model, p.prompt));
+          } catch (err: any) {
+            const elapsed = ((Date.now() - promptStart) / 1000).toFixed(1);
+            console.log(`  ✗ prompt ${p.id} skipped after ${elapsed}s: ${err.message}`);
+            return null;
+          }
 
           const result = scoreResponse(text, slopList as Parameters<typeof scoreResponse>[1]);
 
@@ -118,11 +136,12 @@ async function runBenchmark() {
           latencies.push(latency_ms);
 
           completed++;
-          process.stdout.write(`\r${completed}/${prompts.length} prompts done`);
+          const elapsed = ((Date.now() - promptStart) / 1000).toFixed(1);
+          console.log(`  ✓ prompt ${p.id} done in ${elapsed}s (${completed}/${prompts.length} total)`);
           return result;
         })
       );
-      scored.push(...results);
+      scored.push(...results.filter((r) => r !== null));
     }
 
     const totals = computeRunScore(scored);
@@ -148,7 +167,8 @@ async function runBenchmark() {
 
     console.log(`\n\n--- Results ---`);
     console.log(`Model:           ${model}`);
-    console.log(`Slop Rate:       ${totals.slop_score.toFixed(1)}%  (responses with any slop)`);
+    console.log(`Slop Rate:       ${totals.pure_slop_rate.toFixed(1)}%  (pure — excludes structural/em-dash)`);
+    console.log(`Full Slop Rate:  ${totals.slop_score.toFixed(1)}%  (includes structural/em-dash)`);
     console.log(`Total Words:     ${totals.total_words.toLocaleString()}`);
     console.log(`Slop Hits:       ${total}`);
     console.log(`Bullet Rate:     ${(totals.bullet_rate * 100).toFixed(0)}%`);
