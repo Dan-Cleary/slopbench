@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useQuery } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 
 export default function ResponseExplorer({ runId }) {
   const responses = useQuery(api.runs.getResponsesByRunId, { runId })
   const [expanded, setExpanded] = useState(null)
+  const containerRef = useRef(null)
 
-  if (responses === undefined) return <div className="explorer"><p className="status">Loading responses...</p></div>
-  if (responses.length === 0) return <div className="explorer"><p className="status">No responses found.</p></div>
+  // Scroll into view once data loads
+  useEffect(() => {
+    if (responses && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  }, [responses])
+
+  if (responses === undefined) return <div className="explorer explorer--loading"><p className="status">Loading...</p></div>
+  if (responses.length === 0) return <div className="explorer" ref={containerRef}><p className="status">No responses found.</p></div>
 
   const sorted = [...responses].sort((a, b) => b.slop_hits.length - a.slop_hits.length).slice(0, 5)
 
@@ -23,7 +31,7 @@ export default function ResponseExplorer({ runId }) {
   ].filter(c => breakdown[c])
 
   return (
-    <div className="explorer">
+    <div className="explorer explorer--loaded" ref={containerRef}>
       <div className="explorer-header">
         <h2>Sloppiest Responses <span className="count">top 5</span></h2>
         <p className="hint">Click a row to expand the full response.</p>

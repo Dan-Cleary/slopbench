@@ -370,10 +370,34 @@ footer {
 
 /* ── Response Explorer ── */
 
+.explorer-row td {
+  padding: 0 !important;
+}
+
+.explorer-cell {
+  background: var(--bg-subtle, #f9f9f9);
+  border-bottom: 1px solid var(--border);
+}
+
 .explorer {
-  margin-top: 40px;
   border-top: 1px solid var(--border);
   padding-top: 32px;
+}
+
+.explorer--loading {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explorer--loaded {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .explorer-header {

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 import ScatterPlotRecharts from './ScatterPlotRecharts.jsx'
 import InfoPopover from './InfoPopover.jsx'
+import ResponseExplorer from './ResponseExplorer.jsx'
 import { logoUrl } from '../utils/providers.js'
 
 function ProviderLogo({ model }) {
@@ -62,10 +63,11 @@ const TABS = [
   },
 ]
 
-export default function Leaderboard({ selectedRunId, onSelectRun }) {
+export default function Leaderboard() {
   const runs = useQuery(api.runs.getLeaderboard)
   const [activeTab, setActiveTab] = useState('slop')
   const [asc, setAsc] = useState(true)
+  const [selectedRunId, setSelectedRunId] = useState(null)
 
   if (runs === undefined) return <p className="status">Loading leaderboard...</p>
   if (runs.length === 0) return <p className="status">No completed runs yet.</p>
@@ -119,23 +121,32 @@ export default function Leaderboard({ selectedRunId, onSelectRun }) {
             <tbody>
               {sorted.map((run, i) => {
                 const value = tab.getValue(run)
+                const isSelected = run._id === selectedRunId
                 return (
-                  <tr
-                    key={run._id}
-                    onClick={() => onSelectRun(run._id === selectedRunId ? null : run._id)}
-                    className={run._id === selectedRunId ? 'selected' : ''}
-                  >
-                    <td className="col-rank">{i + 1}</td>
-                    <td className="col-model">
-                      <div className="col-model-inner">
-                        <ProviderLogo model={run.model} />
-                        <code>{run.model}</code>
-                      </div>
-                    </td>
-                    <td>
-                      {value !== undefined ? <ScoreBar value={value} max={max} format={tab.format} /> : '—'}
-                    </td>
-                  </tr>
+                  <React.Fragment key={run._id}>
+                    <tr
+                      onClick={() => setSelectedRunId(isSelected ? null : run._id)}
+                      className={isSelected ? 'selected' : ''}
+                    >
+                      <td className="col-rank">{i + 1}</td>
+                      <td className="col-model">
+                        <div className="col-model-inner">
+                          <ProviderLogo model={run.model} />
+                          <code>{run.model}</code>
+                        </div>
+                      </td>
+                      <td>
+                        {value !== undefined ? <ScoreBar value={value} max={max} format={tab.format} /> : '—'}
+                      </td>
+                    </tr>
+                    {isSelected && (
+                      <tr className="explorer-row">
+                        <td colSpan={3} className="explorer-cell">
+                          <ResponseExplorer runId={run._id} />
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 )
               })}
             </tbody>

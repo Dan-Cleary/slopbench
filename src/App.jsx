@@ -1,12 +1,8 @@
-import { useState } from 'react'
 import './App.css'
 import Leaderboard from './components/Leaderboard.jsx'
-import ResponseExplorer from './components/ResponseExplorer.jsx'
 import InfoPopover from './components/InfoPopover.jsx'
 
 function App() {
-  const [selectedRunId, setSelectedRunId] = useState(null)
-
   return (
     <main>
       <header>
@@ -16,8 +12,7 @@ function App() {
         </div>
         <p className="subtitle">Slop so hard mfs tryna find me.</p>
       </header>
-      <Leaderboard selectedRunId={selectedRunId} onSelectRun={setSelectedRunId} />
-      {selectedRunId && <ResponseExplorer runId={selectedRunId} />}
+      <Leaderboard />
       <footer>
         <div className="footer-links">
           <a href="https://github.com/Dan-Cleary/slopbench" target="_blank" rel="noopener noreferrer">
