@@ -17,7 +17,8 @@
         "Happy to help!",
         "I'd be happy to",
         "Sure thing!",
-        "What a great question"
+        "What a great question",
+        "Let’s break it down"
       ]
     },
 
@@ -33,7 +34,8 @@
         "What a fascinating question",
         "I completely understand where you're coming from",
         "That's a very thoughtful question",
-        "Great observation"
+        "Great observation",
+        "Great catch"
       ]
     },
 
@@ -167,7 +169,10 @@
         "uncharted waters",
         "value proposition",
         "that being said",
-        "with that in mind"
+        "with that in mind",
+        "I hope this helps",
+        "Does that make sense",
+        "Let me know if you need any further clarification"
       ]
     }
   }
