@@ -169,7 +169,15 @@
         "uncharted waters",
         "value proposition",
         "that being said",
-        "with that in mind",
+        "with that in mind"
+      ]
+    },
+
+    "ending_slop": {
+      "description": "Overused assistant-style closing phrases that often appear at the end of responses.",
+      "type": "behavioral",
+      "detection": "string_match_response_end",
+      "items": [
         "I hope this helps",
         "Does that make sense",
         "Let me know if you need any further clarification"

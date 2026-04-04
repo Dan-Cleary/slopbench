@@ -63,6 +63,17 @@ export function detectPhraseLevel(text: string, items: string[]): SlopHit[] {
   return hits;
 }
 
+export function detectEnding(text: string, items: string[]): SlopHit[] {
+  const tail = text.slice(-220).toLowerCase();
+  const hits: SlopHit[] = [];
+  for (const item of items) {
+    if (tail.includes(item.toLowerCase())) {
+      hits.push({ type: "ending_slop", match: item });
+    }
+  }
+  return hits;
+}
+
 export function detectReframe(text: string): SlopHit[] {
   const re = /not (?:just )?[\w\s]+, but (?:also )?[\w\s]+/gi;
   return re.test(text) ? [{ type: "reframe_slop", match: "reframe pattern" }] : [];
@@ -84,6 +95,7 @@ type SlopList = {
     validation_slop: { items: string[] };
     word_level_slop: { items: string[] };
     phrase_level_slop: { items: string[] };
+    ending_slop: { items: string[] };
     [key: string]: unknown;
   };
 };
@@ -95,6 +107,7 @@ export function scoreResponse(text: string, slopList: SlopList): ScoredResponse 
     ...detectValidation(text, categories.validation_slop.items),
     ...detectWordLevel(text, categories.word_level_slop.items),
     ...detectPhraseLevel(text, categories.phrase_level_slop.items),
+    ...detectEnding(text, categories.ending_slop.items),
     ...detectReframe(text),
     ...detectEmDash(text),
     ...detectStructural(text),
