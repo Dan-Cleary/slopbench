@@ -384,7 +384,13 @@
       "topic": "tech",
       "primary_slop_target": "phrase_level",
       "notes": "Startup idea pitch. Invites 'game-changing', 'disruptive', 'paradigm shift', 'value proposition', 'the future of', 'actionable insights', excessive enthusiasm and validation."
+    },
+    {
+      "id": 54,
+      "prompt": "I'm currently working on a project where I have burst of request to my server, I have a rate limiter but I fell like all the request are comming back at the same time",
+      "topic": "tech",
+      "primary_slop_target": "phrase_level",
+      "notes": "Some LLM love the term thundering herd even if human rarely use that term to describe bursty patterns"
     }
-
   ]
 }
