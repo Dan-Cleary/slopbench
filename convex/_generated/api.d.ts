@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as analytics from "../analytics.js";
 import type * as runs from "../runs.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  analytics: typeof analytics;
   runs: typeof runs;
 }>;
 
@@ -46,4 +48,26 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  convalytics: {
+    lib: {
+      track: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          deploymentName?: string;
+          ingestUrl: string;
+          name: string;
+          props?: Record<string, string | number | boolean>;
+          sessionId?: string;
+          timestamp?: number;
+          userEmail?: string;
+          userId: string;
+          userName?: string;
+          writeKey: string;
+        },
+        null
+      >;
+    };
+  };
+};

@@ -30,3 +30,4 @@ skills-lock.json
 *.sln
 *.sw?
 .vercel
+.convalytics

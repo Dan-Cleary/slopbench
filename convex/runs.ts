@@ -1,5 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { analytics } from "./analytics";
 
 // Helper to validate secret
 function checkAuth(secret: string) {
@@ -22,6 +23,11 @@ export const clearAllData = mutation({
       ...runs.map(r => ctx.db.delete(r._id)),
       ...responses.map(r => ctx.db.delete(r._id)),
     ]);
+    await analytics.track(ctx, {
+      name: "data_cleared",
+      userId: "admin",
+      props: { deleted_runs: runs.length, deleted_responses: responses.length },
+    });
     return { deleted_runs: runs.length, deleted_responses: responses.length };
   },
 });
@@ -68,11 +74,17 @@ export const createRun = mutation({
   args: { model: v.string(), secret: v.string() },
   handler: async (ctx, args) => {
     checkAuth(args.secret);
-    return await ctx.db.insert("runs", {
+    const runId = await ctx.db.insert("runs", {
       model: args.model,
       run_date: Date.now(),
       status: "pending",
     });
+    await analytics.track(ctx, {
+      name: "run_created",
+      userId: args.model,
+      props: { model: args.model },
+    });
+    return runId;
   },
 });
 
@@ -96,6 +108,31 @@ export const updateRunStatus = mutation({
         ? { error_message: args.error_message }
         : {}),
     });
+    if (args.status === "running") {
+      const run = await ctx.db.get(args.runId);
+      if (run) {
+        await analytics.track(ctx, {
+          name: "run_started",
+          userId: run.model,
+          props: { model: run.model },
+        });
+      }
+    }
+    if (args.status === "failed") {
+      const run = await ctx.db.get(args.runId);
+      if (run) {
+        await analytics.track(ctx, {
+          name: "run_failed",
+          userId: run.model,
+          props: {
+            model: run.model,
+            ...(args.error_message !== undefined
+              ? { error_message: args.error_message }
+              : {}),
+          },
+        });
+      }
+    }
   },
 });
 
@@ -113,6 +150,7 @@ export const saveResponse = mutation({
   },
   handler: async (ctx, args) => {
     checkAuth(args.secret);
+    const run = await ctx.db.get(args.runId);
     await ctx.db.insert("responses", {
       run_id: args.runId,
       prompt_id: args.promptId,
@@ -122,6 +160,16 @@ export const saveResponse = mutation({
       word_count: args.wordCount,
       cost_usd: args.costUsd,
       latency_ms: args.latencyMs,
+    });
+    await analytics.track(ctx, {
+      name: "response_saved",
+      userId: run?.model ?? "unknown",
+      props: {
+        slop_hit_count: args.slopHits.length,
+        word_count: args.wordCount,
+        latency_ms: args.latencyMs,
+        ...(args.costUsd !== undefined ? { cost_usd: args.costUsd } : {}),
+      },
     });
   },
 });
@@ -141,6 +189,7 @@ export const finalizeRun = mutation({
   },
   handler: async (ctx, args) => {
     checkAuth(args.secret);
+    const run = await ctx.db.get(args.runId);
     await ctx.db.patch(args.runId, {
       status: "complete",
       slop_score: args.slopScore,
@@ -151,6 +200,19 @@ export const finalizeRun = mutation({
       em_dash_rate: args.emDashRate,
       total_cost_usd: args.totalCostUsd,
       avg_latency_ms: args.avgLatencyMs,
+    });
+    await analytics.track(ctx, {
+      name: "run_completed",
+      userId: run?.model ?? "unknown",
+      props: {
+        model: run?.model ?? "unknown",
+        slop_score: args.slopScore,
+        pure_slop_rate: args.pureSlopRate,
+        bullet_rate: args.bulletRate,
+        em_dash_rate: args.emDashRate,
+        total_cost_usd: args.totalCostUsd,
+        avg_latency_ms: args.avgLatencyMs,
+      },
     });
   },
 });
