@@ -56,6 +56,22 @@ const TABS = [
     format: v => `$${v.toFixed(2)}`,
   },
   {
+    key: 'bullets',
+    label: 'Bullets',
+    heading: 'Bullet Point Rate',
+    subheading: 'Percentage of responses containing bullet points or numbered lists. Lower is better.',
+    getValue: r => r.bullet_rate !== undefined ? r.bullet_rate * 100 : undefined,
+    format: v => `${v.toFixed(0)}%`,
+  },
+  {
+    key: 'emdash',
+    label: 'Em Dash',
+    heading: 'Em Dash Rate',
+    subheading: 'Percentage of responses containing excessive em dashes. Lower is better.',
+    getValue: r => r.em_dash_rate,
+    format: v => `${v.toFixed(0)}%`,
+  },
+  {
     key: 'matrix',
     label: 'Matrix',
     heading: 'Value Matrix',
@@ -129,7 +145,12 @@ export default function Leaderboard() {
                 return (
                   <React.Fragment key={run._id}>
                     <tr
-                      onClick={() => setSelectedRunId(isSelected ? null : run._id)}
+                      onClick={() => {
+                        setSelectedRunId(isSelected ? null : run._id)
+if (!isSelected) {
+                          window.convalytics?.track('model_clicked', { model: run.model, tab: activeTab })
+                        }
+                      }}
                       onMouseEnter={() => setHoveredRunId(run._id)}
                       onMouseLeave={() => setHoveredRunId(null)}
                       className={isSelected ? 'selected' : ''}
