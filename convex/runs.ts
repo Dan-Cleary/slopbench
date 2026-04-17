@@ -23,11 +23,6 @@ export const clearAllData = mutation({
       ...runs.map(r => ctx.db.delete(r._id)),
       ...responses.map(r => ctx.db.delete(r._id)),
     ]);
-    await analytics.track(ctx, {
-      name: "data_cleared",
-      userId: "admin",
-      props: { deleted_runs: runs.length, deleted_responses: responses.length },
-    });
     return { deleted_runs: runs.length, deleted_responses: responses.length };
   },
 });
@@ -126,9 +121,7 @@ export const updateRunStatus = mutation({
           userId: run.model,
           props: {
             model: run.model,
-            ...(args.error_message !== undefined
-              ? { error_message: args.error_message }
-              : {}),
+            ...(args.error_message !== undefined ? { error_message: args.error_message } : {}),
           },
         });
       }
@@ -165,6 +158,7 @@ export const saveResponse = mutation({
       name: "response_saved",
       userId: run?.model ?? "unknown",
       props: {
+        model: run?.model ?? "unknown",
         slop_hit_count: args.slopHits.length,
         word_count: args.wordCount,
         latency_ms: args.latencyMs,

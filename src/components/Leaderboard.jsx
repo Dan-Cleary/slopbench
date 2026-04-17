@@ -147,7 +147,7 @@ export default function Leaderboard() {
                     <tr
                       onClick={() => {
                         setSelectedRunId(isSelected ? null : run._id)
-if (!isSelected) {
+                        if (!isSelected) {
                           window.convalytics?.track('model_clicked', { model: run.model, tab: activeTab })
                         }
                       }}
