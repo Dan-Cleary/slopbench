@@ -35,12 +35,14 @@ export const getLeaderboard = query({
       .withIndex("by_status", (q) => q.eq("status", "complete"))
       .take(100);
     // Keep only the most recent run per model
+    const normalize = (m: string) => m.replace(/\./g, "-")
     const latest = new Map<string, typeof runs[0]>()
     for (const run of runs) {
       if (run.pure_slop_rate === undefined) continue
-      const existing = latest.get(run.model)
+      const key = normalize(run.model)
+      const existing = latest.get(key)
       if (!existing || run.run_date > existing.run_date) {
-        latest.set(run.model, run)
+        latest.set(key, run)
       }
     }
     return Array.from(latest.values())
