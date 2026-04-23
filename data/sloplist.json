@@ -131,6 +131,8 @@
       "type": "lexical",
       "detection": "string_match",
       "items": [
+        "smoking gun",
+        "thundering herd",
         "a rich tapestry",
         "a testament to",
         "a treasure trove",
