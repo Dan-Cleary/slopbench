@@ -2,7 +2,7 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
   Tooltip, ReferenceArea, ResponsiveContainer
 } from 'recharts'
-import { logoUrl } from '../utils/providers.js'
+import { logoUrl, formatModel } from '../utils/providers.js'
 
 function CustomDot({ cx, cy, payload }) {
   const url = logoUrl(payload.model)
@@ -20,7 +20,7 @@ function CustomTooltip({ active, payload }) {
   const d = payload[0].payload
   return (
     <div className="scatter-tooltip" style={{ position: 'relative', left: 0, top: 0 }}>
-      <code>{d.model}</code>
+      <code>{formatModel(d.model)}</code>
       <span>Slop: {d.slop.toFixed(1)}%</span>
       <span>Cost: ${d.cost.toFixed(4)}</span>
     </div>

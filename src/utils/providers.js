@@ -15,3 +15,7 @@ export function logoUrl(model) {
   const domain = PROVIDER_DOMAINS[provider]
   return domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=32` : null
 }
+
+export function formatModel(model) {
+  return model.replace(/-(\d{8}|\d{4}-\d{2}-\d{2})$/, '')
+}

@@ -4,7 +4,7 @@ import { api } from '../../convex/_generated/api'
 import ScatterPlotRecharts from './ScatterPlotRecharts.jsx'
 import InfoPopover from './InfoPopover.jsx'
 import ResponseExplorer from './ResponseExplorer.jsx'
-import { logoUrl } from '../utils/providers.js'
+import { logoUrl, formatModel } from '../utils/providers.js'
 
 function ProviderLogo({ model }) {
   const url = logoUrl(model)
@@ -159,7 +159,7 @@ export default function Leaderboard() {
                       <td className="col-model">
                         <div className="col-model-inner">
                           <ProviderLogo model={run.model} />
-                          <code>{run.model}</code>
+                          <code>{formatModel(run.model)}</code>
                         </div>
                       </td>
                       <td>
