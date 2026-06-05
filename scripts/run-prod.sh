@@ -14,6 +14,8 @@ models=(
   "z-ai/glm-5"
   "anthropic/claude-sonnet-4.6"
   "anthropic/claude-opus-4.6"
+  "anthropic/claude-opus-4.8"
+  "x-ai/grok-build-0.1"
   "openai/gpt-5.3-chat"
   "openai/gpt-5.3-codex"
   "openai/gpt-5.4"
