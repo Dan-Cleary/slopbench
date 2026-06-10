@@ -27,7 +27,7 @@ export default function ResponseExplorer({ runId }) {
   }, {})
   const categories = [
     'structural_slop', 'word_level_slop', 'em_dash_slop',
-    'phrase_level_slop', 'opener_slop', 'validation_slop', 'reframe_slop'
+    'phrase_level_slop', 'opener_slop', 'validation_slop', 'reframe_slop', 'ending_slop'
   ].filter(c => breakdown[c])
 
   return (
