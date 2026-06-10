@@ -150,6 +150,13 @@ async function runBenchmark() {
       scored.push(...results.filter((r) => r !== null));
     }
 
+    if (scored.length === 0) {
+      throw new Error(
+        `No prompts succeeded for ${model} — aborting before finalize. ` +
+          `Check that the model slug is correct and available on OpenRouter.`
+      );
+    }
+
     const totals = computeRunScore(scored);
     const total_cost_usd = costs.reduce((s, c) => s + c, 0);
     const avg_latency_ms = Math.round(
