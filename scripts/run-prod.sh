@@ -12,6 +12,7 @@ models=(
   "google/gemini-3-flash-preview"
   "google/gemini-3.1-pro-preview"
   "z-ai/glm-5"
+  "anthropic/claude-fable-5"
   "anthropic/claude-sonnet-4.6"
   "anthropic/claude-opus-4.6"
   "anthropic/claude-opus-4.8"
